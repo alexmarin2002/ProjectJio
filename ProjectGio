@@ -1,0 +1,602 @@
+#include <iostream>
+#include <windows.h>
+
+int sec1, sec2, sec3;
+
+int pos1x[100], pos1y[100];
+int pos2x[100], pos2y[100];
+int pos3x[100], pos3y[100];
+int time1[100];
+std::string nome1, nome2, nome3;
+bool statment = true;
+int numGiri1 = 0, numGiri2 = 0, numGiri3 = 0;
+
+void coordinate(int x, int y) { //posizione stampa caratteri nella console a coordinate date
+
+    COORD universitario = { x, y }; // {x , y}
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), universitario);
+}
+void casellaOrizzontale(int x, int y) {
+    coordinate(x, y);
+    std::cout << " __";
+    coordinate(x, y + 1);
+    std::cout << "|  |";
+    coordinate(x, y + 2);
+    std::cout << "|  |";
+    coordinate(x, y + 3);
+    std::cout << "|  |";
+    coordinate(x, y + 4);
+    std::cout << "|__|";
+}
+
+void casellaVerticale(int x, int y) {
+    coordinate(x, y);
+    std::cout << " _________";
+    coordinate(x, y + 1);
+    std::cout << "|_________|";
+
+}
+
+void parteDestra(int verX, int verY) {
+    for (int i = 1; i <= 25; i++) {
+        if (i < 8 || i >= 14 && i <= 19) {
+            verX += 1;
+        }
+        else {
+            verX -= 1;
+        }
+        if (i == 1) {
+            coordinate(verX + 1, verY);
+            std::cout << "|________|";
+
+        }
+        else {
+            coordinate(verX, verY);
+            std::cout << "|_________|";
+        }
+        verY += 1;
+    }
+}
+
+void parteSinistra(int verX, int verY) {
+    for (int i = 1; i <= 25; i++) {
+        if (i < 8 || i >= 14 && i <= 19) {
+            verX -= 1;
+        }
+        else {
+            verX += 1;
+        }
+        if (i == 1) {
+            int x = verX - 1, y = verY;
+            coordinate(x, y);
+            std::cout << " |________";
+            coordinate(x, y + 1);
+            std::cout << "|_________|";
+        }
+        else {
+            coordinate(verX, verY);
+            std::cout << "|_________|";
+        }
+        verY += 1;
+    }
+}
+
+void parteSuperiore(int oriX, int oriY) {
+    for (int o = 1; o <= 20; o++) {
+        casellaOrizzontale(oriX, oriY);
+        oriX += 3;
+        std::cout << " X: " << oriX;
+    }
+}
+
+void parteInferiore(int oriX, int oriY) {
+    for (int o = 1; o <= 20; o++) {
+        if (o == 1) {
+            int x = oriX, y = oriY;
+            coordinate(oriX, oriY);
+            std::cout << "|__";
+            coordinate(x, y + 1);
+            std::cout << "|  |";
+            coordinate(x, y + 2);
+            std::cout << "|  |";
+            coordinate(x, y + 3);
+            std::cout << "|  |";
+            coordinate(x, y + 4);
+            std::cout << "|__|";
+        }
+        else {
+            casellaOrizzontale(oriX, oriY);
+        }
+        if (o == 20) {
+            int x = oriX, y = oriY;
+            coordinate(oriX, oriY);
+            std::cout << " __|";
+            coordinate(x, y + 1);
+            std::cout << "|  |";
+            coordinate(x, y + 2);
+            std::cout << "|  |";
+            coordinate(x, y + 3);
+            std::cout << "|  |";
+            coordinate(x, y + 4);
+            std::cout << "|__|_";
+        }
+        oriX += 3;
+    }
+}
+
+void angoloSinistraSu(int angX, int angY) {
+    coordinate(angX + 1, angY - 1);
+    std::cout << " _________";
+    coordinate(angX, angY);
+    std::cout << " |       ";
+    coordinate(angX, angY + 1);
+    std::cout << " |       ";
+    coordinate(angX, angY + 2);
+    std::cout << " |       ";
+    coordinate(angX, angY + 3);
+    std::cout << " |       ";
+    coordinate(angX, angY + 4);
+    std::cout << " |       ";
+
+}
+
+void angoloDestraSu(int angX, int angY) {
+    coordinate(angX + 1, angY - 1);
+    std::cout << " ________";
+    coordinate(angX, angY);
+    std::cout << "          |";
+    coordinate(angX, angY + 1);
+    std::cout << "          |";
+    coordinate(angX, angY + 2);
+    std::cout << "          |";
+    coordinate(angX, angY + 3);
+    std::cout << "          |";
+}
+
+void angoloSinistroGiu(int angX, int angY) {
+    coordinate(angX + 1, angY - 1);
+    coordinate(angX, angY);
+    std::cout << " |       ";
+    coordinate(angX, angY + 1);
+    std::cout << " |       ";
+    coordinate(angX, angY + 2);
+    std::cout << " |       ";
+    coordinate(angX, angY + 3);
+    std::cout << " |________";
+}
+
+void angoloDestroGiu(int angX, int angY) {
+    coordinate(angX + 1, angY - 1);
+    coordinate(angX, angY);
+    std::cout << "        |";
+    coordinate(angX, angY + 1);
+    std::cout << "        |";
+    coordinate(angX, angY + 2);
+    std::cout << "        |";
+    coordinate(angX, angY + 3);
+    std::cout << " _______|";
+}
+
+void scritte(int coordX, int coordY) {
+    coordinate(coordX, coordY);
+    std::cout << "START";
+    coordinate(110 ,9 );
+    std::cout << "GIRI CICLISTA "<< nome1 <<": " << numGiri1;
+    coordinate(110, 10);
+    std::cout << "GIRI CICLISTA " << nome2 << ": " << numGiri2;
+    coordinate(110, 11);
+    std::cout << "GIRI CICLISTA " << nome3 << ": " << numGiri3;
+    coordinate(110, 5);
+    std::cout << "CICLISTA " << nome1 << ": "  << "#";
+    coordinate(110, 6);
+    std::cout << "CICLISTA " << nome2 << ": " << "@";
+    coordinate(110, 7);
+    std::cout << "CICLISTA " << nome3 << ": " << "O";
+    coordinate(110, 13);
+    std::cout << "SECONDI CICLISTA " << nome1 << "   " << sec1;
+    coordinate(110, 14);
+    std::cout << "SECONDI CICLISTA " << nome2 << "   " << sec2;
+    coordinate(110, 15);
+    std::cout << "SECONDI CICLISTA " << nome3 << "   " << sec3;
+
+}
+
+void mappa() {
+    angoloSinistraSu(20, 5);
+    angoloDestraSu(89, 5);
+    angoloSinistroGiu(20, 33);
+    angoloDestroGiu(91, 33);
+    parteSuperiore(30, 4);
+    parteDestra(88, 8);
+    parteSinistra(22, 8);
+    parteInferiore(30, 32);
+}
+
+void movePlay1() {
+    int x = 28;
+    int y = 5;
+    for (int i = 1; i <= 22; i++) { //sopra
+        pos1x[i] = x;
+        pos1y[i] = y;
+        //coordinate(pos1x[i], pos1y[i]);
+        //std::cout << i;
+        if (i == 21) {
+            x += 6;
+        }
+        else
+        {
+            x += 3;
+        }
+    }
+    for (int i = 23; i <= 47; i++) {//destra
+        if (i == 23) {
+            y += 4;
+        }
+        else
+        {
+            y += 1;
+        }
+        if (i > 22 && i < 29 || i > 34 && i < 41) {
+            x += 1;
+        }
+        else {
+            x -= 1;
+        }
+        pos1x[i] = x;
+        pos1y[i] = y;
+        //coordinate(pos1x[i], pos1y[i]);
+        //std::cout << i;
+    }
+    for (int i = 47; i <= 67; i++) {//sotto
+        pos1x[i] = x;
+        pos1y[i] = y;
+        //coordinate(pos1x[i], pos1y[i]);
+        //std::cout << i;
+        if (i == 47) {
+            x -= 8;
+        }
+        else
+        {
+            x -= 3;
+        }
+    }
+    for (int i = 68; i <= 92; i++) {//sinistra
+        if (i == 68) {
+            x -= 1;
+        }
+        else
+        {
+            y -= 1;
+        }
+        if (i > 69 && i < 76 || i > 81 && i < 88) {
+            x -= 1;
+        }
+        else {
+            x += 1;
+        }
+        if (i == 68) {
+            x -= 1;
+        }
+        pos1x[i] = x;
+        pos1y[i] = y;
+        //coordinate(pos1x[i], pos1y[i]);
+        //std::cout << i;
+    }
+}
+
+void movePlay2() {
+    int x = 28;
+    int y = 6;
+    for (int i = 1; i <= 22; i++) { //sopra
+        pos2x[i] = x;
+        pos2y[i] = y;
+        //coordinate(pos2x[i], pos2y[i]);
+        //std::cout << i;
+        if (i == 21) {
+            x += 5;
+        }
+        else
+        {
+            x += 3;
+        }
+    }
+    x -= 3;
+    for (int i = 23; i <= 46; i++) {//destra
+
+        if (i == 23) {
+            y += 3;
+        }
+        else
+        {
+            y += 1;
+        }
+        if (i > 22 && i < 29 || i > 34 && i < 41) {
+            x += 1;
+        }
+        else {
+            x -= 1;
+        }
+        pos2x[i] = x;
+        pos2y[i] = y;
+         //coordinate(pos2x[i], pos2y[i]);
+         //std::cout << i;
+    }
+    y += 2;
+    for (int i = 47; i <= 67; i++) {//sotto
+        pos2x[i] = x;
+        pos2y[i] = y;
+        //coordinate(pos2x[i], pos2y[i]);
+        //std::cout << i;
+        if (i == 47) {
+            x -= 5;
+        }
+        else
+        {
+            x -= 3;
+        }
+    }
+    y -= 1;
+    x -= 2;
+    for (int i = 68; i <= 92; i++) {//sinistra
+        if (i == 68) {
+            x -= 1;
+        }
+        else
+        {
+            y -= 1;
+        }
+        if (i > 69 && i < 76 || i > 81 && i < 88) {
+            x -= 1;
+        }
+        else {
+            x += 1;
+        }
+        if (i == 68) {
+            x -= 1;
+        }
+        pos2x[i] = x;
+        pos2y[i] = y;
+        //coordinate(pos2x[i], pos2y[i]);
+        //std::cout << i;
+    }
+}
+
+void movePlay3() {
+    int x = 28;
+    int y = 7;
+    for (int i = 1; i <= 22; i++) { //sopra
+        pos3x[i] = x;
+        pos3y[i] = y;
+        //coordinate(pos3x[i], pos3y[i]);
+        //std::cout << i;
+        if (i == 21) {
+            x += 4;
+        }
+        else
+        {
+            x += 3;
+        }
+    }
+    x -= 4;
+    for (int i = 23; i <= 46; i++) {//destra
+
+        if (i == 23) {
+            y += 2;
+        }
+        else
+        {
+            y += 1;
+        }
+        if (i > 22 && i < 29 || i > 34 && i < 41) {
+            x += 1;
+        }
+        else {
+            x -= 1;
+        }
+        pos3x[i] = x;
+        pos3y[i] = y;
+        coordinate(pos3x[i], pos3y[i]);
+        std::cout << i;
+    }
+    y += 3;
+    for (int i = 47; i <= 67; i++) {//sotto
+        pos3x[i] = x;
+        pos3y[i] = y;
+        //coordinate(pos3x[i], pos3y[i]);
+        //std::cout << i;
+        if (i == 47) {
+            x -= 3;
+        }
+        else
+        {
+            x -= 3;
+        }
+    }
+    y -= 2;
+    x -= 5;
+    for (int i = 68; i <= 92; i++) {//sinistra
+        if (i == 68) {
+            x -= 1;
+        }
+        else
+        {
+            y -= 1;
+        }
+        if (i > 69 && i < 76 || i > 81 && i < 88) {
+            x -= 1;
+        }
+        else {
+            x += 1;
+        }
+        if (i == 68) {
+            x -= 1;
+        }
+        pos3x[i] = x;
+        pos3y[i] = y;
+        //coordinate(pos3x[i], pos3y[i]);
+        //std::cout << i;
+    }
+}
+
+void secondsPlayer() {
+    for (int o = 1; o <= 92; o++) { //22 - 28 //calcolo secondi caselle salite, discese
+        time1[o] = 10;
+
+        if (o >= 23 && o <= 28) {
+            time1[o] += (22 - o);
+        }
+        if (o >= 29 && o <= 34) {
+            time1[o] -= (28 - o);
+        }
+        if (o >= 35 && o <= 40) {
+            time1[o] += (34 - o);
+        }
+        if (o >= 41 && o <= 46) {
+            time1[o] -= (40 - o);
+        }
+        if (o >= 69 && o <= 74) {
+            time1[o] += (68 - o);
+        }
+        if (o >= 75 && o <= 80) {
+            time1[o] -= (74 - o);
+        }
+        if (o >= 81 && o <= 86) {
+            time1[o] += (80 - o);
+        }
+        if (o >= 87 && o <= 92) {
+            time1[o] -= (86 - o);
+        }
+    }   
+}
+int main()
+{
+    int numGiriVoluti;
+    int movements = 0;
+    int basePos1 = 0, basePos2 = 0, basePos3 = 0;
+    int ordine = 1;
+    int oldPos = 0, oldPos2 = 0, oldPos3= 0;
+    coordinate(35, 15);
+    std::cout << " INGRANDISCI LA CONSOLE E PREMI UN TASTO PER INIZIARE!";
+    system("pause>0");
+    coordinate(45, 20);
+    std::cout << " INSERIRE NOME DEL PRIMO CORRIDORE: ";
+    std::cin >> nome1;
+    coordinate(45, 23);
+   std::cout << " INSERIRE NOME DEL SECONDO CORRIDORE: ";
+   std::cin >> nome2;
+   coordinate(45, 26);
+    std::cout << " INSERIRE NOME DEL TERZO CORRIDORE: ";
+    std::cin >> nome3;
+    coordinate(45, 28);
+    std::cout << " INSERIRE IL NUMERO DI GIRI DA ESEGUIRE: ";
+    std::cin >> numGiriVoluti;
+    while (statment) {
+        mappa();
+        coordinate(0, 0);
+        std::cout << movements;
+        movePlay1();
+        movePlay2();
+        movePlay3();
+        secondsPlayer();
+        coordinate(pos1x[basePos1], pos1y[basePos1]);
+        std::cout << "#";
+        coordinate(pos2x[basePos2], pos2y[basePos2]);
+        std::cout << "@";
+        coordinate(pos3x[basePos3], pos3y[basePos3]);
+        std::cout << "O";
+        if (ordine == 1) {
+            int move = (rand() % 3) + 1;
+             oldPos = basePos1;
+            if (basePos1 <= 91) {
+                basePos1 += move;               
+            }
+            else {
+                basePos1 = 1;
+                numGiri1 += 1;              
+            }
+            while (oldPos < basePos1) {
+                sec1 += time1[oldPos];
+                oldPos++;
+          }
+        }
+        if (ordine == 2) {
+            int move = (rand() % 3) + 1;
+            oldPos2 = basePos2;
+            if (basePos2 <= 91) {
+                basePos2 += move;
+            }
+            else {
+                basePos2 = 1;
+                numGiri2 += 1;
+            }
+            while (oldPos2 < basePos2) {
+                sec2 += time1[oldPos2];
+                oldPos2++;
+            }
+        }
+        if (ordine == 3) {
+            int move = (rand() % 3) + 1;
+            oldPos3 = basePos3;
+            if (basePos3 <= 91) {
+                basePos3 += move;
+            }
+            else {
+                basePos3 = 1;
+                numGiri3 += 1;
+            }
+            while (oldPos3 < basePos3) {
+                sec3 += time1[oldPos3];
+                oldPos3++;
+                }           
+        }
+        if (ordine <= 2) {
+            ordine += 1;
+        }
+        else {
+            ordine = 1;
+        }
+        scritte(23, 3);
+        movements++;
+        if (numGiri1 == numGiriVoluti || numGiri2 == numGiriVoluti || numGiri3 == numGiriVoluti) {
+            if (numGiri1 > numGiri2 && numGiri3) {
+                statment = false;
+                system("cls");
+                mappa();
+                coordinate(45, 20);             
+                std::cout << " The winner is " << nome1;
+                coordinate(45, 21);
+                std::cout << "                 SCORE: " << 920 * numGiri1;
+                coordinate(45, 22);
+                std::cout << "         Giri Eseguiti: " << numGiri1;
+                system("pause>0");
+            }
+            if (numGiri3 > numGiri2 && numGiri1) {
+                statment = false;
+                system("cls");
+                mappa();
+                coordinate(45, 20);
+                std::cout << " The winner is " << nome3;
+                coordinate(45, 21);
+                std::cout << "                 SCORE: " << 920 * numGiri3;
+                coordinate(45, 22);
+                std::cout << "         Giri Eseguiti: " << numGiri3;
+                system("pause>0");
+            }
+            if (numGiri2 > numGiri3 && numGiri1) {
+                statment = false;
+                system("cls");
+                mappa();
+                coordinate(45, 20);
+                std::cout << " The winner is " << nome2;
+                coordinate(45, 21);
+                std::cout << "                 SCORE: " << 920 * numGiri2;
+                coordinate(45, 22);
+                std::cout << "         Giri Eseguiti: " << numGiri2;
+                system("pause>0");
+            }
+        }
+        Sleep(50);
+        system("cls");
+    }
+    system("pause>0");
+}
