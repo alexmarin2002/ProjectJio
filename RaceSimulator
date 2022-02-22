@@ -180,24 +180,24 @@ void angoloDestroGiu(int angX, int angY) {
 void scritte(int coordX, int coordY) {
     coordinate(coordX, coordY);
     std::cout << "START";
-    coordinate(110 ,9 );
-    std::cout << "GIRI CICLISTA "<< nome1 <<": " << numGiri1;
+    coordinate(110, 9);
+    std::cout << "LAPS 1^ RUNNER " << nome1 << ": " << numGiri1;
     coordinate(110, 10);
-    std::cout << "GIRI CICLISTA " << nome2 << ": " << numGiri2;
+    std::cout << "LAPS 2^ RUNNER " << nome2 << ": " << numGiri2;
     coordinate(110, 11);
-    std::cout << "GIRI CICLISTA " << nome3 << ": " << numGiri3;
+    std::cout << "LAPS 3^ RUNNER " << nome3 << ": " << numGiri3;
     coordinate(110, 5);
-    std::cout << "CICLISTA " << nome1 << ": "  << "#";
+    std::cout << "RUNNER " << nome1 << ": " << "#";
     coordinate(110, 6);
-    std::cout << "CICLISTA " << nome2 << ": " << "@";
+    std::cout << "RUNNER " << nome2 << ": " << "@";
     coordinate(110, 7);
-    std::cout << "CICLISTA " << nome3 << ": " << "O";
+    std::cout << "RUNNER " << nome3 << ": " << "O";
     coordinate(110, 13);
-    std::cout << "SECONDI CICLISTA " << nome1 << "   " << sec1;
+    std::cout << "RUNNER'S SCORE: " << nome1 << "   " << sec1;
     coordinate(110, 14);
-    std::cout << "SECONDI CICLISTA " << nome2 << "   " << sec2;
+    std::cout << "RUNNER'S SCORE: " << nome2 << "   " << sec2;
     coordinate(110, 15);
-    std::cout << "SECONDI CICLISTA " << nome3 << "   " << sec3;
+    std::cout << "RUNNER'S SCORE: " << nome3 << "   " << sec3;
 
 }
 
@@ -318,8 +318,8 @@ void movePlay2() {
         }
         pos2x[i] = x;
         pos2y[i] = y;
-         //coordinate(pos2x[i], pos2y[i]);
-         //std::cout << i;
+        //coordinate(pos2x[i], pos2y[i]);
+        //std::cout << i;
     }
     y += 2;
     for (int i = 47; i <= 67; i++) {//sotto
@@ -395,8 +395,8 @@ void movePlay3() {
         }
         pos3x[i] = x;
         pos3y[i] = y;
-        coordinate(pos3x[i], pos3y[i]);
-        std::cout << i;
+       // coordinate(pos3x[i], pos3y[i]);
+        //std::cout << i;
     }
     y += 3;
     for (int i = 47; i <= 67; i++) {//sotto
@@ -466,7 +466,7 @@ void secondsPlayer() {
         if (o >= 87 && o <= 92) {
             time1[o] -= (86 - o);
         }
-    }   
+    }
 }
 int main()
 {
@@ -474,21 +474,22 @@ int main()
     int movements = 0;
     int basePos1 = 0, basePos2 = 0, basePos3 = 0;
     int ordine = 1;
-    int oldPos = 0, oldPos2 = 0, oldPos3= 0;
+    int oldPos = 0, oldPos2 = 0, oldPos3 = 0;
     coordinate(35, 15);
-    std::cout << " INGRANDISCI LA CONSOLE E PREMI UN TASTO PER INIZIARE!";
+    std::cout << " SET THE WINDOW IN FULL SCREEN AND PRESS A BUTTON TO START!";
     system("pause>0");
-    coordinate(45, 20);
-    std::cout << " INSERIRE NOME DEL PRIMO CORRIDORE: ";
-    std::cin >> nome1;
+    system("cls");
     coordinate(45, 23);
-   std::cout << " INSERIRE NOME DEL SECONDO CORRIDORE: ";
-   std::cin >> nome2;
-   coordinate(45, 26);
-    std::cout << " INSERIRE NOME DEL TERZO CORRIDORE: ";
+    std::cout << "1. GIVE A NAME TO THE FIRST RUNNER: ";
+    std::cin >> nome1;
+    coordinate(45, 25);
+    std::cout << "2. GIVE A NAME TO THE SECOND RUNNER: ";
+    std::cin >> nome2;
+    coordinate(45, 27);
+    std::cout << "3. GIVE A NAME TO THE THIRD RUNNER: ";
     std::cin >> nome3;
-    coordinate(45, 28);
-    std::cout << " INSERIRE IL NUMERO DI GIRI DA ESEGUIRE: ";
+    coordinate(45, 29);
+    std::cout << "4. ENTER THE NUMBER OF LAPS: ";
     std::cin >> numGiriVoluti;
     while (statment) {
         mappa();
@@ -506,18 +507,18 @@ int main()
         std::cout << "O";
         if (ordine == 1) {
             int move = (rand() % 3) + 1;
-             oldPos = basePos1;
+            oldPos = basePos1;
             if (basePos1 <= 91) {
-                basePos1 += move;               
+                basePos1 += move;
             }
             else {
                 basePos1 = 1;
-                numGiri1 += 1;              
+                numGiri1 += 1;
             }
             while (oldPos < basePos1) {
                 sec1 += time1[oldPos];
                 oldPos++;
-          }
+            }
         }
         if (ordine == 2) {
             int move = (rand() % 3) + 1;
@@ -547,7 +548,7 @@ int main()
             while (oldPos3 < basePos3) {
                 sec3 += time1[oldPos3];
                 oldPos3++;
-                }           
+            }
         }
         if (ordine <= 2) {
             ordine += 1;
@@ -562,12 +563,12 @@ int main()
                 statment = false;
                 system("cls");
                 mappa();
-                coordinate(45, 20);             
-                std::cout << " The winner is " << nome1;
+                coordinate(45, 20);
+                std::cout << " The winner is: " << nome1;
                 coordinate(45, 21);
                 std::cout << "                 SCORE: " << 920 * numGiri1;
                 coordinate(45, 22);
-                std::cout << "         Giri Eseguiti: " << numGiri1;
+                std::cout << "         Laps Performed: " << numGiri1;
                 system("pause>0");
             }
             if (numGiri3 > numGiri2 && numGiri1) {
@@ -579,7 +580,7 @@ int main()
                 coordinate(45, 21);
                 std::cout << "                 SCORE: " << 920 * numGiri3;
                 coordinate(45, 22);
-                std::cout << "         Giri Eseguiti: " << numGiri3;
+                std::cout << "         Laps Performed: " << numGiri3;
                 system("pause>0");
             }
             if (numGiri2 > numGiri3 && numGiri1) {
@@ -591,7 +592,7 @@ int main()
                 coordinate(45, 21);
                 std::cout << "                 SCORE: " << 920 * numGiri2;
                 coordinate(45, 22);
-                std::cout << "         Giri Eseguiti: " << numGiri2;
+                std::cout << "         Laps Performed: " << numGiri2;
                 system("pause>0");
             }
         }
